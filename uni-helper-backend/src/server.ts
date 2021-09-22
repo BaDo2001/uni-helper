@@ -5,8 +5,11 @@ import compression from 'compression';
 import cors from 'cors';
 import helmet from 'helmet';
 import { schema } from './schema';
+import dotenv from 'dotenv';
 
-const PORT = process.env.PORT || 5000;
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
+
+const PORT = process.env.PORT;
 
 const app = express();
 app.use('*', cors() as RequestHandler);
