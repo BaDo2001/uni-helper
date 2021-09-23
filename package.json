@@ -3,12 +3,26 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "concurrently \"cd uni-helper-backend && npm start\" \"cd uni-helper-frontend && npm run dev\""
+    "start": "concurrently \"cd uni-helper-backend && npm start\" \"cd uni-helper-frontend && npm run dev\"",
+    "start:prod": "cd uni-helper-backend && npm run start:prod",
+    "heroku-prebuild": "npm run install:backend && npm run install:frontend",
+    "install:backend": "cd uni-helper-backend && npm ci --also=dev",
+    "install:frontend": "cd uni-helper-frontend && npm ci --also=dev",
+    "heroku-postbuild": "npm run clean && npm run build:backend && npm run build:frontend && npm run copy:frontend",
+    "clean": "rimraf uni-helper-backend/public && rimraf uni-helper-backend/dist && rimraf uni-helper-backend/.cache",
+    "build:backend": "cd uni-helper-backend && npm run build",
+    "build:frontend": "cd uni-helper-frontend && npm run build",
+    "copy:frontend": "move-cli uni-helper-frontend/dist uni-helper-backend/public"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^6.2.1"
+    "concurrently": "^6.2.1",
+    "move-cli": "^1.2.1",
+    "rimraf": "^3.0.2"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }
