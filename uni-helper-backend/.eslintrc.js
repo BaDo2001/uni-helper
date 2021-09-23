@@ -18,5 +18,6 @@ module.exports = {
     rules: {
         '@typescript-eslint/indent': ['error', 4],
         '@typescript-eslint/explicit-module-boundary-types': 'off',
+        'linebreak-style': 'off',
     },
 };
