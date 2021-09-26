@@ -42,5 +42,6 @@ module.exports = {
         'no-empty-function': 'off',
         '@typescript-eslint/no-empty-function': ['error'],
         'no-restricted-syntax': 'off',
+        'linebreak-style': 'off',
     },
 };
