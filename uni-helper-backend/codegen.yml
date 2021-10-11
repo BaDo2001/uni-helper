@@ -1,0 +1,10 @@
+schema:
+  - ./src/graphql/types/*.ts
+require:
+  - ts-node/register
+generates:
+  ./generated-typings/graphql-types.d.ts:
+    plugins: 
+      - typescript
+      - typescript-resolvers
+      - typescript-mongodb
