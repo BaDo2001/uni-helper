@@ -2,12 +2,10 @@ import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { createServer } from 'http';
 import compression from 'compression';
-import helmet from 'helmet';
 import schema from './graphql/schema';
 import dotenv from 'dotenv';
 
 const app = express();
-app.use(helmet({ contentSecurityPolicy: (process.env.NODE_ENV === 'production') ? undefined : false }));
 app.use(compression());
 
 if (process.env.NODE_ENV === 'development') {
