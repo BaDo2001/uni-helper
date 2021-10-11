@@ -15,6 +15,7 @@ module.exports = {
         browser: false,
         es2021: true,
     },
+    ignorePatterns: ['**/*.d.ts'],
     rules: {
         '@typescript-eslint/indent': ['error', 4],
         '@typescript-eslint/explicit-module-boundary-types': 'off',
