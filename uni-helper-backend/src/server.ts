@@ -31,4 +31,4 @@ server.applyMiddleware({ app, path: '/graphql' });
 
 const httpServer = createServer(app);
 
-httpServer.listen({ port: PORT }, () => console.log(`🚀 GraphQL-Server is running on http://localhost:${PORT}/graphql`));
+httpServer.listen({ port: PORT }, () => console.log(`\n🚀 GraphQL-Server is running on http://localhost:${PORT}/graphql\n`));
