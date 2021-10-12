@@ -22,8 +22,7 @@
     "graphql": "^15.6.0",
     "http": "0.0.1-security",
     "mongoose": "^6.0.10",
-    "nodemon": "^2.0.13",
-    "ora": "^5.4.1"
+    "nodemon": "^2.0.13"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.2.0",

@@ -1,6 +1,5 @@
 import { spawn } from 'child_process';
 import nodemon from 'nodemon';
-import ora from 'ora';
 import { join } from 'path';
 import { stdout } from 'process';
 
@@ -29,21 +28,15 @@ const startNodemon = () => {
 };
 
 const generateTypes = (initialStart: boolean) => {
-    const spinner = ora('Generating graphQL types...');
-    spinner.color = 'green';
-    spinner.start();
+    console.log('Generating graphQL types...\n');
     
     const genTypeCmd = spawn('npm.cmd', ['run', 'gen-types', '--', '-e']);
 
     genTypeCmd.stderr.on('data', (data) => {
-        spinner.stop();
-
         stdout.write('\n' + data);
     });
 
     genTypeCmd.on('exit', () => {
-        spinner.stop();
-
         if (initialStart) {
             startNodemon();
         } else {
