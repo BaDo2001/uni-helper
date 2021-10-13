@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "concurrently \"cd uni-helper-backend && npm start\" \"cd uni-helper-frontend && npm run dev\"",
+    "start": "concurrently \"cd uni-helper-backend && npm start\" \"wait-on http-get://localhost:5000 && cd uni-helper-frontend && npm run dev\"",
     "start:prod": "cd uni-helper-backend && npm run start:prod",
     "install:root": "npm ci --also=dev && npm run install:backend && npm run install:frontend",
     "install:backend": "cd uni-helper-backend && npm ci --also=dev",
@@ -23,7 +23,8 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^6.2.1",
-    "move-cli": "^1.2.1"
+    "move-cli": "^1.2.1",
+    "wait-on": "^6.0.0"
   },
   "engines": {
     "node": "14.x"

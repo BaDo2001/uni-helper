@@ -4,8 +4,8 @@ const User = gql`
 	type User @entity {
 		id: String @id
 		name: String! @column
-		email: Float @column
-		age: Int @column
+		email: String! @column
+		age: Int! @column
 	}
 `;
 
