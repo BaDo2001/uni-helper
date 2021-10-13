@@ -1,4 +1,4 @@
-import { QueryResolvers } from './../../../generated-typings/graphql-types.d';
+import { QueryResolvers } from '../../../generated-typings/graphql-types';
 import { ApolloError } from 'apollo-server-express';
 
 const QueryResolver: QueryResolvers = {

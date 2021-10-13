@@ -6,6 +6,7 @@ const User = gql`
 		name: String! @column
 		email: String! @column
 		age: Int! @column
+		country: String @column
 	}
 `;
 

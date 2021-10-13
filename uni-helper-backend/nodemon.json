@@ -1,0 +1,7 @@
+{
+    "exec": "ts-node",
+    "ignore": [
+        "src/graphql/types"
+    ],
+    "ext": "ts"
+}

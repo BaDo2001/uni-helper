@@ -1,0 +1,17 @@
+schema: ./uni-helper-backend/src/graphql/types/*.ts
+documents: ./uni-helper-frontend/src/graphql/*.ts
+
+watch: true
+
+require:
+  - ts-node/register
+generates:
+  uni-helper-backend/generated-typings/graphql-types.d.ts:
+    plugins: 
+      - typescript
+      - typescript-resolvers
+      - typescript-mongodb
+  uni-helper-frontend/generated-typings/graphql-types.d.ts:
+    plugins: 
+      - typescript
+      - typescript-react-apollo
