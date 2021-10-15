@@ -1,19 +1,8 @@
-import { useQuery } from '@apollo/client';
 import React from 'react';
-import { GET_USERS_QUERY } from './graphql/queries';
-
-type User = {
-    name: string;
-    email: string;
-    age: number;
-};
-
-type Query = {
-    getAllUsers: User[];
-};
+import { useUserQuery } from '../generated-typings/graphql-types.d';
 
 const App = () => {
-    const { data, loading, error } = useQuery<Query>(GET_USERS_QUERY);
+    const { data, error, loading } = useUserQuery();
 
     if (loading) {
         return <div>loading</div>;
@@ -32,11 +21,11 @@ const App = () => {
                         <div className="flex-1 text-center font-bold text-lg py-4 bg-gray-400 border-2 border-black">Age</div>
                         <div className="flex-1 text-center font-bold text-lg py-4 bg-gray-400 border-2 border-black">Email</div>
                     </li>
-                    {data?.getAllUsers.map(({ name, age, email }) => (
-                        <li className="flex" key={name}>
-                            <div className="flex-1 text-center py-4 bg-gray-100 border border-black">{name}</div>
-                            <div className="flex-1 text-center py-4 bg-gray-100 border border-black">{age}</div>
-                            <div className="flex-1 text-center py-4 bg-gray-100 border border-black">{email}</div>
+                    {data.users.map((user) => (
+                        <li className="flex" key={user.name}>
+                            <div className="flex-1 text-center py-4 bg-gray-100 border border-black">{user.name}</div>
+                            <div className="flex-1 text-center py-4 bg-gray-100 border border-black">{user.age}</div>
+                            <div className="flex-1 text-center py-4 bg-gray-100 border border-black">{user.email}</div>
                         </li>
                     ))}
                 </ul>

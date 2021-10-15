@@ -1,12 +1,22 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { gql } from '@apollo/client';
 
-// eslint-disable-next-line import/prefer-default-export
-export const GET_USERS_QUERY = gql`
-query {
-  getAllUsers {
-    name
-    age
-    email
-  }
-}
+const USERS_QUERY = gql`
+    query User {
+        users {
+            name
+            age
+            email
+        }
+    }
+`;
+
+const BSZ2_QUERY = gql`
+    query Bsz2 {
+        Bsz2 {
+            id
+            name
+            credits
+        }
+    }
 `;
