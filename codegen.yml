@@ -11,7 +11,13 @@ generates:
       - typescript
       - typescript-resolvers
       - typescript-mongodb
+    config:
+      typesPrefix: I
   uni-helper-frontend/generated-typings/graphql-types.d.ts:
     plugins: 
       - typescript
+      - typescript-operations
       - typescript-react-apollo
+    config:
+      avoidOptionals: true
+      typesPrefix: I

@@ -8,6 +8,12 @@ const User = gql`
 		age: Int! @column
 		country: String @column
 	}
+
+	type Subject @entity {
+		id: String @id
+		name: String! @column
+		credits: Int! @column
+	}
 `;
 
 export default User;
