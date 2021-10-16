@@ -1,39 +1,38 @@
+import { ApolloProvider } from '@apollo/client';
 import React from 'react';
-import { useUserQuery } from '../generated-typings/graphql-types.d';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import client from './ApolloClient';
+import AdminDashboardPage from './components/pages/AdminDashboardPage';
+import CalendarPage from './components/pages/CalendarPage';
+import DashboardPage from './components/pages/DashboardPage';
+import LoginPage from './components/pages/LoginPage';
+import PrivateRoute from './components/utils/PrivateRoute';
+import AuthProvider from './contexts/AuthContext';
 
-const App = () => {
-    const { data, error, loading } = useUserQuery();
-
-    if (loading) {
-        return <div>loading</div>;
-    }
-
-    if (error) {
-        return <div>{error}</div>;
-    }
-
-    if (data) {
-        return (
-            <div>
-                <ul className="w-full">
-                    <li className="flex">
-                        <div className="flex-1 text-center font-bold text-lg py-4 bg-gray-400 border-2 border-black">Name</div>
-                        <div className="flex-1 text-center font-bold text-lg py-4 bg-gray-400 border-2 border-black">Age</div>
-                        <div className="flex-1 text-center font-bold text-lg py-4 bg-gray-400 border-2 border-black">Email</div>
-                    </li>
-                    {data.users.map((user) => (
-                        <li className="flex" key={user.name}>
-                            <div className="flex-1 text-center py-4 bg-gray-100 border border-black">{user.name}</div>
-                            <div className="flex-1 text-center py-4 bg-gray-100 border border-black">{user.age}</div>
-                            <div className="flex-1 text-center py-4 bg-gray-100 border border-black">{user.email}</div>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        );
-    }
-
-    return <h1>No data</h1>;
-};
+const App = () => (
+    <Router>
+        <AuthProvider>
+            <ApolloProvider client={client}>
+                <Switch>
+                    <Route path="/login">
+                        <LoginPage />
+                    </Route>
+                    <PrivateRoute path="/admin">
+                        <AdminDashboardPage />
+                    </PrivateRoute>
+                    <PrivateRoute path="/dashboard">
+                        <DashboardPage />
+                    </PrivateRoute>
+                    <PrivateRoute path="/calendar">
+                        <CalendarPage />
+                    </PrivateRoute>
+                    <PrivateRoute path="/">
+                        <Redirect to="/login" />
+                    </PrivateRoute>
+                </Switch>
+            </ApolloProvider>
+        </AuthProvider>
+    </Router>
+);
 
 export default App;
