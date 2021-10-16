@@ -4,6 +4,7 @@ import { createServer } from 'http';
 import compression from 'compression';
 import schema from './graphql/schema';
 import dotenv from 'dotenv';
+import connectDB from './db/db';
 
 const app = express();
 app.use(compression());
@@ -31,4 +32,12 @@ server.applyMiddleware({ app, path: '/graphql' });
 
 const httpServer = createServer(app);
 
-httpServer.listen({ port: PORT }, () => console.log(`\n🚀 GraphQL-Server is running on http://localhost:${PORT}/graphql\n`));
+const startServer = async () => {
+    await connectDB();
+
+    console.log('\nDB connected.');
+
+    httpServer.listen({ port: PORT }, () => console.log(`\n🚀 GraphQL-Server is running on http://localhost:${PORT}/graphql\n`));
+};
+
+startServer();
