@@ -5,8 +5,8 @@
   "scripts": {
     "start": "concurrently \"npm run gen-types\" \"npm run start:frontend\" \"npm run start:backend\"",
     "start:frontend": "wait-on http-get://localhost:5000 && cd uni-helper-frontend && npm run dev",
-    "start:backend": "wait-on uni-helper-backend/generated-typings/graphql-types.d.ts && cd uni-helper-backend && npm start",
-    "gen-types": "graphql-codegen",
+    "start:backend": "cd uni-helper-backend && npm start",
+    "gen-types": "wait-on http-get://localhost:5000 && graphql-codegen",
     "start:prod": "cd uni-helper-backend && npm run start:prod",
     "install:root": "npm ci --also=dev && npm run install:backend && npm run install:frontend",
     "install:backend": "cd uni-helper-backend && npm ci --also=dev",
@@ -27,10 +27,8 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^2.2.1",
     "@graphql-codegen/typescript": "^2.2.3",
-    "@graphql-codegen/typescript-mongodb": "^2.1.5",
     "@graphql-codegen/typescript-operations": "^2.1.7",
     "@graphql-codegen/typescript-react-apollo": "^3.1.5",
-    "@graphql-codegen/typescript-resolvers": "^2.3.1",
     "concurrently": "^6.2.1",
     "move-cli": "^1.2.1",
     "wait-on": "^6.0.0"

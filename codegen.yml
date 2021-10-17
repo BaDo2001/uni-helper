@@ -1,4 +1,4 @@
-schema: ./uni-helper-backend/src/graphql/types/*.ts
+schema: http://localhost:5000/graphql
 documents: ./uni-helper-frontend/src/graphql/*.ts
 
 watch: true
@@ -6,13 +6,6 @@ watch: true
 require:
   - ts-node/register
 generates:
-  uni-helper-backend/generated-typings/graphql-types.d.ts:
-    plugins: 
-      - typescript
-      - typescript-resolvers
-      - typescript-mongodb
-    config:
-      typesPrefix: I
   uni-helper-frontend/generated-typings/graphql-types.d.ts:
     plugins: 
       - typescript

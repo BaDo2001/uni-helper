@@ -4,7 +4,7 @@ import { createServer } from 'http';
 import compression from 'compression';
 import schema from './graphql/schema';
 import dotenv from 'dotenv';
-import connectDB from './db/db';
+import { connectDB } from './db/db';
 
 const app = express();
 app.use(compression());
