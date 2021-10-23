@@ -1,5 +1,4 @@
 import { SubjectTC } from '../db/models/Subject';
-import { UniversityTC } from '../db/models/University';
 import { SchemaComposer } from 'graphql-compose';
 import { ObjectTypeComposerWithMongooseResolvers } from 'graphql-compose-mongoose';
 import { GraphQLSchema } from 'graphql';
@@ -52,4 +51,4 @@ const createGraphQLSchema = (models: ObjectTypeComposerWithMongooseResolvers<any
     return schemaComposer.buildSchema();
 };
 
-export default createGraphQLSchema([SubjectTC, UniversityTC]);
+export default createGraphQLSchema([SubjectTC]);

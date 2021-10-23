@@ -15,7 +15,6 @@ if (process.env.NODE_ENV === 'development') {
     app.get('/', (req, res) => {
         res.sendStatus(200);
     });
-
 } else if (process.env.NODE_ENV === 'production') {
     app.use(express.static('public'));
 }
