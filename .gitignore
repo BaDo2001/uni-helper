@@ -5,3 +5,4 @@ public
 .cache
 .idea
 generated-typings
+schema.graphql

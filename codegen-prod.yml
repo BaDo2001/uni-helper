@@ -1,7 +1,5 @@
-schema: http://localhost:5000/graphql
+schema: ./schema.graphql
 documents: ./uni-helper-frontend/src/graphql/*.graphql
-
-watch: true
 
 require:
   - ts-node/register

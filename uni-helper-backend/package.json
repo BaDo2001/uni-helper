@@ -6,7 +6,7 @@
     "start": "cross-env NODE_ENV=development nodemon --config nodemon.json src/server.ts",
     "start:prod": "node dist/src/server.js",
     "lint": "eslint \"src/**/*.ts?(x)\"",
-    "build": "npm run gen-types && tsc -p ."
+    "build": "ts-node scripts/buildSchema.ts && tsc -p ."
   },
   "keywords": [],
   "author": "",
@@ -22,8 +22,7 @@
     "graphql-compose": "^9.0.4",
     "graphql-compose-mongoose": "^9.7.0",
     "http": "0.0.1-security",
-    "mongoose": "^6.0.10",
-    "nodemon": "^2.0.13"
+    "mongoose": "^6.0.10"
   },
   "devDependencies": {
     "@types/compression": "^1.7.2",
@@ -40,6 +39,7 @@
     "eslint-config-airbnb-typescript": "^14.0.0",
     "eslint-plugin-graphql": "^4.0.0",
     "eslint-plugin-import": "^2.24.2",
+    "nodemon": "^2.0.13",
     "prettier": "^2.4.1",
     "prettier-eslint": "^13.0.0",
     "ts-node": "^10.2.1",

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import type { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
 import { useHistory } from 'react-router-dom';
-import { useLoginMutation } from '../../generated-typings/graphql-types.d';
+import { useLoginMutation } from '../../generated-typings/graphql-types';
 
 export type AuthScope = 'ADMIN' | 'NONE' | 'USER';
 
