@@ -1,0 +1,16 @@
+schema: http://localhost:5000/graphql
+documents: ./uni-helper-frontend/src/graphql/*.graphql
+
+watch: true
+
+require:
+  - ts-node/register
+generates:
+  uni-helper-frontend/generated-typings/graphql-types.d.ts:
+    plugins: 
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      avoidOptionals: true
+      typesPrefix: I

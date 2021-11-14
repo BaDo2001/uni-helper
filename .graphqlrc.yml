@@ -1,1 +1,9 @@
 schema: 'http://localhost:5000/graphql'
+extensions:
+  customDirectives:
+    - directive @column on FIELD_DEFINITION
+    - directive @entity on OBJECT
+    - directive @id on FIELD_DEFINITION
+    - directive @link on FIELD_DEFINITION
+    - directive @embedded on FIELD_DEFINITION
+    - directive @map on FIELD_DEFINITION

@@ -10,7 +10,7 @@
 
 ### Setup
 
-Install dependencies in `root`, `uni-helper-frontend` and `uni-helper-backend` by using `npm i` in all three folders.
+Install dependencies in  by using `npm run install:root` in the root folder.
 
 Create `.env` file in the `uni-helper-backend` folder with the following content:
 

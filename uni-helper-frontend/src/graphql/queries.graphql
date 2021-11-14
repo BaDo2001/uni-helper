@@ -1,0 +1,36 @@
+query OwnSubjects {
+    Me {
+        subjects {
+            _id
+            name
+        }
+    }
+}
+
+query Subjects {
+    SubjectMany {
+        _id
+        name
+        credits
+    }
+}
+
+mutation Login ($oAuthToken: String!) {
+    UserLogin(oAuthToken: $oAuthToken) {
+        authScope
+    }
+}
+
+mutation CreateSubject ($record: CreateOneSubjectSchemaInput!) {
+    SubjectCreateOne(record: $record) {
+        recordId
+        record {
+            _id
+            neptunId
+            name
+            university
+            faculty
+            credits
+        }
+    }
+}

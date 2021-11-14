@@ -1,10 +1,38 @@
+import { ApolloProvider } from '@apollo/client';
 import React from 'react';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import client from './ApolloClient';
+import AdminDashboardPage from './components/pages/AdminDashboardPage';
+import CalendarPage from './components/pages/CalendarPage';
+import DashboardPage from './components/pages/DashboardPage';
+import LoginPage from './components/pages/LoginPage';
+import PrivateRoute from './components/utils/PrivateRoute';
+import AuthProvider from './contexts/AuthContext';
 
 const App = () => (
-    <div className="bg-blue-300">
-        <h1 className="text-xl text-center text-yellow-50 p-3.5">Hello world</h1>
-        <p className="text-lg text-red-800 p-10">This a page to help you with studying.</p>
-    </div>
+    <Router>
+        <ApolloProvider client={client}>
+            <AuthProvider>
+                <Switch>
+                    <Route path="/login">
+                        <LoginPage />
+                    </Route>
+                    <PrivateRoute path="/admin">
+                        <AdminDashboardPage />
+                    </PrivateRoute>
+                    <PrivateRoute path="/dashboard">
+                        <DashboardPage />
+                    </PrivateRoute>
+                    <PrivateRoute path="/calendar">
+                        <CalendarPage />
+                    </PrivateRoute>
+                    <Route path="/">
+                        <Redirect to="/login" />
+                    </Route>
+                </Switch>
+            </AuthProvider>
+        </ApolloProvider>
+    </Router>
 );
 
 export default App;
