@@ -1,10 +1,10 @@
 import { getModelForClass, prop } from '@typegoose/typegoose';
 import { composeMongoose } from 'graphql-compose-mongoose';
 import type { Document } from 'mongoose';
+import type { ResolverDefinition } from 'graphql-compose';
 import { AuthScope, getUserFromToken } from '../../middleware/auth';
 import { Subject, SubjectTC } from './Subject';
-import { Context } from '../../graphql/schema';
-import { ResolverDefinition } from 'graphql-compose';
+import type { Context } from '../../graphql/schema';
 
 class UserSchema {
     @prop({ required: true })
@@ -23,11 +23,9 @@ export const UserTC = composeMongoose<Document & UserSchema, Context>(User);
 UserTC.addFields({
     subjects: {
         type: [SubjectTC],
-        resolve: async (user) => {
-            return Subject.find({
-                _id: user.subjectIds ?? [],
-            });
-        },
+        resolve: async user => Subject.find({
+            _id: user.subjectIds,
+        }),
     },
 });
 
@@ -51,6 +49,7 @@ UserTC.addResolver({
 
         const newUser = new User({ googleID, authScope: 'USER', subjectIds: [] });
 
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         newUser.save();
 
         return newUser;
@@ -61,10 +60,10 @@ UserTC.addResolver({
     name: 'me',
     type: UserTC,
     resolve: ({ context }) => {
-        if (!context?.user?.userId) {
+        if (!context.user?.userId) {
             return null;
         }
 
-        return UserTC.mongooseResolvers.findById().resolve({ args: { _id: context.user.userId } });
+        return UserTC.mongooseResolvers.findById().resolve({ args: { _id: context.user.userId } }) as Document & UserSchema;
     },
 } as ResolverDefinition<unknown, Context, unknown>);

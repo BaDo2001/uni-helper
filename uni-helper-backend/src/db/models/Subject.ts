@@ -7,7 +7,7 @@ class SubjectSchema {
 
     @prop({ required: true })
     public university!: string;
-    
+
     @prop({ required: true })
     public faculty!: string;
 

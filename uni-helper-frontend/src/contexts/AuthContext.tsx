@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState } from 'react';
-import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
+import type { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
 import { useHistory } from 'react-router-dom';
 import { useLoginMutation } from '../../generated-typings/graphql-types.d';
 
-export type AuthScope = 'ADMIN' | 'USER' | 'NONE';
+export type AuthScope = 'ADMIN' | 'NONE' | 'USER';
 
 const useAuthContextValue = () => {
     const [authInfo, setAuthInfo] = useState<GoogleLoginResponse | null>(null);
@@ -11,20 +11,21 @@ const useAuthContextValue = () => {
     const history = useHistory();
     const [loginMutation] = useLoginMutation();
 
-    const refreshToken = (expiresIn: number) => {
-        setTimeout(async () => {
-            if (authInfo) {
-                const authRes = await authInfo.reloadAuthResponse();
+    const refreshToken = async (expiresIn: number) => {
+        if (authInfo) {
+            const authRes = await authInfo.reloadAuthResponse();
 
-                setAuthInfo({
-                    ...authInfo,
-                    tokenObj: authRes,
-                });
-                localStorage.setItem('token', authRes.id_token);
+            setAuthInfo({
+                ...authInfo,
+                tokenObj: authRes,
+            });
+            localStorage.setItem('token', authRes.id_token);
 
+            setTimeout(() => {
+                // eslint-disable-next-line @typescript-eslint/no-floating-promises
                 refreshToken(authInfo.tokenObj.expires_in);
-            }
-        }, (expiresIn - 5 * 60) * 1000);
+            }, (expiresIn - 5 * 60) * 1000);
+        }
     };
 
     const login = async (res: GoogleLoginResponse | GoogleLoginResponseOffline) => {
@@ -34,17 +35,18 @@ const useAuthContextValue = () => {
             const loginData = await loginMutation({ variables: { oAuthToken: response.tokenObj.id_token } });
 
             if (loginData.data?.UserLogin?.authScope) {
-                refreshToken(response.tokenObj.expires_in);
                 setAuthInfo(response);
-                setAuthScope(loginData.data?.UserLogin?.authScope as AuthScope);
+                setAuthScope(loginData.data.UserLogin.authScope as AuthScope);
                 localStorage.setItem('token', response.tokenObj.id_token);
+                // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                refreshToken(response.tokenObj.expires_in);
 
                 history.push('/dashboard');
             } else {
                 // eslint-disable-next-line no-console
                 console.log(loginData);
             }
-        } catch (error) {
+        } catch (error: unknown) {
             // eslint-disable-next-line no-console
             console.log(error);
         }

@@ -16,7 +16,7 @@
     "build:backend": "cd uni-helper-backend && npm run build",
     "build:frontend": "cd uni-helper-frontend && npm run build",
     "copy:frontend": "move-cli uni-helper-frontend/dist uni-helper-backend/public",
-    "lint": "echo NO LINT",
+    "lint": "cd uni-helper-backend && npm run lint && cd ../uni-helper-frontend && npm run lint",
     "test": "echo NO TEST",
     "heroku-prebuild": "npm run install:root",
     "heroku-postbuild": "npm run build"

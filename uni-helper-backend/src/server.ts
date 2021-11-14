@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'development') {
     app.use(express.static('public'));
 }
 
-const PORT = process.env.PORT;
+const { PORT } = process.env;
 
 const server = new ApolloServer({
     schema,
@@ -31,6 +31,7 @@ const server = new ApolloServer({
     }),
 });
 
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
 app.use('/graphql', authMiddleWareExpress);
 
 server.applyMiddleware({ app, path: '/graphql' });
@@ -38,8 +39,12 @@ server.applyMiddleware({ app, path: '/graphql' });
 const httpServer = createServer(app);
 
 const startServer = () => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     connectDB();
-    httpServer.listen({ port: PORT }, () => console.log(`\n🚀 GraphQL-Server is running on http://localhost:${PORT}/graphql\n`));
+    httpServer.listen({ port: PORT }, () => {
+        // eslint-disable-next-line no-console
+        console.log(`\n🚀 GraphQL-Server is running on http://localhost:${PORT ?? 4000}/graphql\n`);
+    });
 };
 
 startServer();

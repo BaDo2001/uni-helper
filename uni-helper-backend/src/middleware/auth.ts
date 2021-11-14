@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import { OAuth2Client } from 'google-auth-library';
 import { User } from '../db/models/User';
 
-export type AuthScope = 'USER' | 'ADMIN';
+export type AuthScope = 'ADMIN' | 'USER';
 
 export const isAuthorized = (needed: AuthScope, owned?: AuthScope) => {
     if (owned === 'ADMIN') {
@@ -26,7 +26,7 @@ declare global {
     }
 }
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID as string);
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export const getUserFromToken = async (token?: string) => {
     if (!token || token === '') {
@@ -36,7 +36,7 @@ export const getUserFromToken = async (token?: string) => {
     const payload = (
         await client.verifyIdToken({
             idToken: token,
-            audience: process.env.GOOGLE_CLIENT_ID as string,
+            audience: process.env.GOOGLE_CLIENT_ID!,
         })
     ).getPayload();
 
@@ -59,7 +59,7 @@ export const authMiddleWareExpress = async (req: Request, res: Response, next: N
         const { user } = await getUserFromToken(token);
 
         if (!user) {
-            return next();
+            next(); return;
         }
 
         req.authInfo = {
@@ -68,7 +68,7 @@ export const authMiddleWareExpress = async (req: Request, res: Response, next: N
         };
 
         next();
-    } catch (error) {
-        return next();
+    } catch (error: unknown) {
+        next();
     }
 };
