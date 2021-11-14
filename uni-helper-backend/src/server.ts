@@ -2,8 +2,9 @@ import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { createServer } from 'http';
 import compression from 'compression';
-import schema from './graphql/schema';
 import dotenv from 'dotenv';
+import { authMiddleWareExpress } from './middleware/auth';
+import schema from './graphql/schema';
 import { connectDB } from './db/db';
 
 const app = express();
@@ -25,17 +26,19 @@ const server = new ApolloServer({
     schema,
     playground: true,
     introspection: true,
+    context: ({ req }) => ({
+        user: req.authInfo,
+    }),
 });
+
+app.use('/graphql', authMiddleWareExpress);
 
 server.applyMiddleware({ app, path: '/graphql' });
 
 const httpServer = createServer(app);
 
-const startServer = async () => {
-    await connectDB();
-
-    console.log('\nDB connected.');
-
+const startServer = () => {
+    connectDB();
     httpServer.listen({ port: PORT }, () => console.log(`\n🚀 GraphQL-Server is running on http://localhost:${PORT}/graphql\n`));
 };
 

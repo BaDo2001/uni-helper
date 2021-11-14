@@ -1,27 +1,22 @@
-import { Schema } from 'mongoose';
-import { modelsFromSchema } from '../db';
+import { getModelForClass, prop } from '@typegoose/typegoose';
+import { composeMongoose } from 'graphql-compose-mongoose';
 
-const schema = new Schema({
-    neptunId: {
-        type: String,
-        required: true,
-    },
-    university: {
-        type: String,
-        required: true,
-    },
-    faculty: {
-        type: String,
-        required: true,
-    },
-    name: {
-        type: String,
-        required: true,
-    },
-    credits: {
-        type: Number,
-        required: true,
-    },
-});
+class SubjectSchema {
+    @prop({ required: true })
+    public neptunId!: string;
 
-export const [Subject, SubjectTC] = modelsFromSchema(schema, 'Subject');
+    @prop({ required: true })
+    public university!: string;
+    
+    @prop({ required: true })
+    public faculty!: string;
+
+    @prop({ required: true })
+    public name!: string;
+
+    @prop({ required: true })
+    public credits!: number;
+}
+
+export const Subject = getModelForClass(SubjectSchema, { schemaOptions: { collection: 'subjects' } });
+export const SubjectTC = composeMongoose(Subject, {});

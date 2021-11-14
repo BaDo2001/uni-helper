@@ -1,5 +1,5 @@
 schema: http://localhost:5000/graphql
-documents: ./uni-helper-frontend/src/graphql/*.ts
+documents: ./uni-helper-frontend/src/graphql/*.graphql
 
 watch: true
 
