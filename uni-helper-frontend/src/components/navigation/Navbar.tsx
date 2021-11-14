@@ -1,30 +1,43 @@
 import React from 'react';
+import GoogleLogin, { GoogleLogout } from 'react-google-login';
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../../contexts/AuthContext';
 
 const Navbar: React.FC = () => {
-    const { authenticated, login, logout } = useAuthContext();
+    const { authScope, login, logout } = useAuthContext();
 
     return (
         <nav>
             <ul>
-                {authenticated ? (
+                {authScope !== 'NONE' ? (
                     <>
                         <li>
-                            <button type="button" onClick={logout}>Log out</button>
+                            <GoogleLogout
+                                clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID as string}
+                                buttonText="Log out"
+                                onLogoutSuccess={logout}
+                            />
                         </li>
-                        <li>
-                            <Link to="/admin">Admin site</Link>
-                        </li>
+                        {
+                            authScope === 'ADMIN' && (
+                                <li>
+                                    <Link to="/admin">Admin site</Link>
+                                </li>
+                            )
+                        }
                         <li>
                             <Link to="/calendar">Calendar</Link>
                         </li>
                     </>
                 ) : (
                     <>
-                        <li>
-                            <button type="button" onClick={login}>Log in</button>
-                        </li>
+                        <GoogleLogin
+                            clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID as string}
+                            buttonText="Login"
+                            onSuccess={login}
+                            cookiePolicy="single_host_origin"
+                            isSignedIn
+                        />
                     </>
                 )}
             </ul>

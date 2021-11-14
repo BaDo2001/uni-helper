@@ -11,8 +11,8 @@ import AuthProvider from './contexts/AuthContext';
 
 const App = () => (
     <Router>
-        <AuthProvider>
-            <ApolloProvider client={client}>
+        <ApolloProvider client={client}>
+            <AuthProvider>
                 <Switch>
                     <Route path="/login">
                         <LoginPage />
@@ -26,12 +26,12 @@ const App = () => (
                     <PrivateRoute path="/calendar">
                         <CalendarPage />
                     </PrivateRoute>
-                    <PrivateRoute path="/">
+                    <Route path="/">
                         <Redirect to="/login" />
-                    </PrivateRoute>
+                    </Route>
                 </Switch>
-            </ApolloProvider>
-        </AuthProvider>
+            </AuthProvider>
+        </ApolloProvider>
     </Router>
 );
 
