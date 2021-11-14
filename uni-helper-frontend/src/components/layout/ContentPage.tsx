@@ -1,4 +1,5 @@
-import React, { HTMLProps } from 'react';
+import type { HTMLProps } from 'react';
+import React from 'react';
 import { classNames } from '../../utils';
 import Navbar from '../navigation/Navbar';
 
