@@ -13,6 +13,7 @@ module.exports = {
             version: 'detect',
         },
     },
+    ignorePatterns: ['*.d.ts', 'graphql-types.ts'],
     plugins: ['@typescript-eslint'],
     parser: '@typescript-eslint/parser',
     parserOptions: {
@@ -24,6 +25,7 @@ module.exports = {
         indent: 'off',
         'linebreak-style': 'off',
         'no-undef': 'off',
+        'no-unused-vars': 'off',
         'max-len': [
             'error',
             {
@@ -90,13 +92,6 @@ module.exports = {
         '@typescript-eslint/prefer-nullish-coalescing': 'off',
         '@typescript-eslint/no-magic-numbers': 'off', // false positive in constant arrays, etc.
         '@typescript-eslint/strict-boolean-expressions': 'off',
-        '@typescript-eslint/member-ordering': [
-            'error',
-            {
-                default: memberOrdering.defaultOrder.filter(memberType => !memberType.includes('decorated')),
-            },
-        ],
-        '@typescript-eslint/explicit-member-accessibility': ['error'],
         '@typescript-eslint/no-type-alias': 'off',
         '@typescript-eslint/no-invalid-this': 'off', // https://github.com/typescript-eslint/typescript-eslint/issues/491
         '@typescript-eslint/prefer-readonly-parameter-types': 'off',
@@ -180,6 +175,7 @@ module.exports = {
             accessibility: 'no-public',
         }],
         '@typescript-eslint/member-ordering': ['error', {
+            // eslint-disable-next-line global-require, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
             default: require('@typescript-eslint/eslint-plugin/dist/rules/member-ordering').defaultOrder
                 .filter(memberType => !memberType.includes('decorated')) // treat decorated fields the same as others
                 .filter(memberType => !memberType.endsWith('method')) // ignore method order by visibility
@@ -193,5 +189,6 @@ module.exports = {
                     'method',
                 ]),
         }],
+        'react/require-default-props': 'off',
     },
 };

@@ -1,23 +1,15 @@
-import type { HTMLProps } from 'react';
 import React from 'react';
-import { classNames } from '../../utils';
 import Navbar from '../navigation/Navbar';
 
-const ContentPageItemContainer: React.FC<HTMLProps<HTMLDivElement>> = ({ children, className, ...rest }) => (
-    <div className={classNames('bg-gray-50 m-4 p-4 rounded-2xl', className)} {...rest}>
-        {children}
-    </div>
-);
-
 const ContentPage: React.FC = ({ children }) => (
-    <div className="bg-indigo-300 flex h-screen">
-        <ContentPageItemContainer className="mr-0 w-60">
+    <div className="bg-gray-100 flex flex-col sm:flex-row h-screen">
+        <div className="bg-white mr-0 w-full sm:w-60">
             <Navbar />
-        </ContentPageItemContainer>
+        </div>
 
-        <ContentPageItemContainer className="flex-1">
+        <div className="flex-1 p-16">
             {children}
-        </ContentPageItemContainer>
+        </div>
     </div>
 );
 

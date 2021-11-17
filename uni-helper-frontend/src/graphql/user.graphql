@@ -1,0 +1,14 @@
+query OwnSubjects {
+    Me {
+        subjects {
+            _id
+            name
+        }
+    }
+}
+
+mutation Login ($oAuthToken: String!) {
+    UserLogin(oAuthToken: $oAuthToken) {
+        authScope
+    }
+}

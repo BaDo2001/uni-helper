@@ -1,23 +1,17 @@
-query OwnSubjects {
-    Me {
-        subjects {
+query SubjectPagination ($page: Int, $perPage: Int) {
+    SubjectPagination(page: $page, perPage: $perPage) {
+        pageInfo {
+            pageCount
+            itemCount
+        }
+        items {
             _id
             name
+            neptunId
+            university
+            faculty
+            credits
         }
-    }
-}
-
-query Subjects {
-    SubjectMany {
-        _id
-        name
-        credits
-    }
-}
-
-mutation Login ($oAuthToken: String!) {
-    UserLogin(oAuthToken: $oAuthToken) {
-        authScope
     }
 }
 
