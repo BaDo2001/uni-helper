@@ -18,7 +18,7 @@ class UserSchema {
 }
 
 export const User = getModelForClass(UserSchema, { schemaOptions: { collection: 'users' } });
-export const UserTC = composeMongoose<Document & UserSchema, Context>(User);
+export const UserTC = composeMongoose<Document<UserSchema> & UserSchema, Context>(User);
 
 UserTC.addFields({
     subjects: {

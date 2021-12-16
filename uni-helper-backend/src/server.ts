@@ -45,7 +45,6 @@ const startServer = () => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     connectDB();
     httpServer.listen({ port: process.env.PORT }, () => {
-        // eslint-disable-next-line no-console
         console.log(`\n🚀 GraphQL-Server is running on http://localhost:${process.env.PORT ?? 5000}/api/graphql\n`);
     });
 };

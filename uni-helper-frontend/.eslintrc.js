@@ -22,6 +22,7 @@ module.exports = {
         sourceType: 'module',
     },
     rules: {
+        '@typescript-eslint/init-declarations': 'off',
         indent: 'off',
         'linebreak-style': 'off',
         'no-undef': 'off',

@@ -14,8 +14,27 @@ const createGraphQLSchema = (): GraphQLSchema => {
 
     schemaComposer.Query.addFields({
         Me: UserTC.getResolver('me').withMiddlewares([authMiddlewareGraphQL('USER')]),
-        SubjectMany: SubjectTC.mongooseResolvers.findMany(),
-        SubjectPagination: SubjectTC.mongooseResolvers.pagination(),
+        SubjectById: SubjectTC.mongooseResolvers.findById(),
+        SubjectPagination: SubjectTC.mongooseResolvers
+            .pagination()
+            .wrap<{}, { queryString: string; filter: { [key: string]: unknown } }>((newResolver) => {
+            newResolver.removeArg('filter');
+            newResolver.addArgs({ queryString: 'String' });
+
+            return newResolver;
+        })
+            .wrapResolve(
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+                next => rp => next({
+                    ...rp,
+                    args: {
+                        ...rp.args,
+                        filter: {
+                            OR: [{ name: new RegExp(rp.args.queryString, 'i') }, { neptunId: new RegExp(rp.args.queryString, 'i') }],
+                        },
+                    },
+                }),
+            ),
     });
 
     schemaComposer.Mutation.addFields({

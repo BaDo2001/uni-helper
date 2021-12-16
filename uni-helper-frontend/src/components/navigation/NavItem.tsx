@@ -2,13 +2,13 @@ import type { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { tw } from '../../utils';
 
 type NavItemVariant = 'BUTTON' | 'LINK';
 
-// eslint-disable-next-line no-unused-vars
-const VARIANT_MAPS: { [key in NavItemVariant]: string } = {
-    BUTTON: 'mb-6 text-white bg-blue-500 hover:bg-blue-600',
-    LINK: 'last:border-none border-b text-blue-500 bg-white hover:bg-gray-100 ',
+const VARIANTS: { [key in NavItemVariant]: string } = {
+    BUTTON: tw('mb-b text-white bg-blue-500 hover:bg-blue-600'),
+    LINK: tw('last:border-none border-b text-blue-500 bg-white hover:bg-gray-100'),
 };
 
 interface ContainerProps {
@@ -17,7 +17,7 @@ interface ContainerProps {
 }
 
 export const NavItemContainer: React.FC<ContainerProps> = ({ icon, variant, children }) => (
-    <li className={`mx-2 sm:mx-0 cursor-pointer flex items-center relative ${VARIANT_MAPS[variant]}`}>
+    <li className={tw(`mx-2 sm:mx-0 cursor-pointer flex items-center relative ${VARIANTS[variant]}`)}>
         <FontAwesomeIcon className="w-5 absolute left-2 pointer-events-none" icon={icon} fixedWidth />
         {children}
     </li>

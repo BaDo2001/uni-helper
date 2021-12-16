@@ -59,6 +59,7 @@ module.exports = {
         ],
         'no-plusplus': 'off',
         'no-continue': 'off',
+        'no-console': 'off',
         curly: ['error', 'all'],
         'no-confusing-arrow': 'off',
         'default-param-last': ['error'],

@@ -1,15 +1,22 @@
 import React, { createContext, useContext, useState } from 'react';
 import type { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
 import { useHistory } from 'react-router-dom';
+import { v4 as uuid } from 'uuid';
 import { useLoginMutation } from '../../generated-typings/graphql-types';
+import { useMessageContext } from './MessageContext';
 
 export type AuthScope = 'ADMIN' | 'NONE' | 'USER';
+
+export interface HistoryState {
+    referrer: string;
+}
 
 const useAuthContextValue = () => {
     const [authInfo, setAuthInfo] = useState<GoogleLoginResponse | null>(null);
     const [authScope, setAuthScope] = useState<AuthScope>('NONE');
-    const history = useHistory();
+    const history = useHistory<HistoryState>();
     const [loginMutation] = useLoginMutation();
+    const { addMessage } = useMessageContext();
 
     const refreshToken = async (expiresIn: number) => {
         if (authInfo) {
@@ -41,14 +48,17 @@ const useAuthContextValue = () => {
                 // eslint-disable-next-line @typescript-eslint/no-floating-promises
                 refreshToken(response.tokenObj.expires_in);
 
-                history.push('/dashboard');
+                // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+                if (history.location.state && history.location.state.referrer !== 'login') {
+                    history.push(history.location.state.referrer);
+                } else {
+                    history.push('/dashboard');
+                }
             } else {
-                // eslint-disable-next-line no-console
-                console.log(loginData);
+                addMessage({ id: uuid(), message: 'Something went wrong. Please try again.', type: 'ERROR' });
             }
         } catch (error: unknown) {
-            // eslint-disable-next-line no-console
-            console.log(error);
+            addMessage({ id: uuid(), message: 'Something went wrong. Please try again.', type: 'ERROR' });
         }
     };
 

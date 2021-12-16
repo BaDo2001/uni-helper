@@ -1,32 +1,47 @@
 import React from 'react';
 import type { TableInstance } from 'react-table';
 
+export interface Props {
+    getColumnClass: (columnId: string) => string;
+}
+
 const TableContent = <T extends {}>({
     getTableProps,
     headerGroups,
     getTableBodyProps,
     prepareRow,
     page,
-}: TableInstance<T>) => (
-    <table {...getTableProps()} className="bg-white w-full h-full">
+    getColumnClass,
+}: Props & TableInstance<T>) => (
+    <table {...getTableProps()} className="bg-white w-full">
         <thead className="block">
             {headerGroups.map(headerGroup => (
-                <tr {...headerGroup.getHeaderGroupProps()} className="flex w-full">
+                <tr {...headerGroup.getHeaderGroupProps()} className="flex">
                     {headerGroup.headers.map(column => (
-                        <th className="border-b p-4 text-left flex-1" {...column.getHeaderProps()}>
+                        <th
+                            className={`border-b p-4 text-left ${getColumnClass(column.id)}`}
+                            {...column.getHeaderProps({
+                                style: { width: column.width, minWidth: column.minWidth },
+                            })}
+                        >
                             {column.render('Header')}
                         </th>
                     ))}
                 </tr>
             ))}
         </thead>
-        <tbody {...getTableBodyProps()} className="block overflow-auto" style={{ maxHeight: '70vh' }}>
+        <tbody {...getTableBodyProps()}>
             {page.map((row) => {
                 prepareRow(row);
                 return (
-                    <tr {...row.getRowProps()} className="flex w-full">
+                    <tr {...row.getRowProps()} className="flex">
                         {row.cells.map(cell => (
-                            <td className="border-b p-4 flex-1" {...cell.getCellProps()}>
+                            <td
+                                className={`border-b p-4 ${getColumnClass(cell.column.id)}`}
+                                {...cell.getCellProps({
+                                    style: { width: cell.column.width, minWidth: cell.column.minWidth },
+                                })}
+                            >
                                 {cell.render('Cell')}
                             </td>
                         ))}

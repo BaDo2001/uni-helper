@@ -59,7 +59,8 @@ export const authMiddleWareExpress = async (req: Request, res: Response, next: N
         const { user } = await getUserFromToken(token);
 
         if (!user) {
-            next(); return;
+            next();
+            return;
         }
 
         req.authInfo = {

@@ -1,8 +1,13 @@
+fragment OwnSubject on SubjectSchema {
+    _id
+    name
+    credits
+}
+
 query OwnSubjects {
     Me {
         subjects {
-            _id
-            name
+            ...OwnSubject
         }
     }
 }
